@@ -23,6 +23,7 @@ class LoginController extends GetxController {
           'profile',
           'https://www.googleapis.com/auth/plus.me',
         ],) .signIn();
+      print("sadasdasda");
       final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -68,14 +69,16 @@ class LoginController extends GetxController {
       // Trigger the Facebook authentication flow
       final LoginResult result = await FacebookAuth.instance.login();
 
+
+      print(result);
       // Check if the user has authenticated successfully
       if (result.status == LoginStatus.success) {
         // Get the Facebook access token
-        final AccessToken accessToken = result.accessToken!;
+        final AccessToken facebookAccessToken = result.accessToken!;
 
         // Exchange Facebook access token for Firebase credential
         final AuthCredential credential =
-        FacebookAuthProvider.credential(accessToken.token);
+        FacebookAuthProvider.credential(facebookAccessToken.token);
 
         // Sign in to Firebase using the credential
         UserCredential userCredential =
@@ -86,7 +89,7 @@ class LoginController extends GetxController {
 
         // Get user data from your database (assuming it's implemented)
         var userData = await DatabaseX.loginBySocialMedia(
-            provider: 'facebook', accessProviderToken: accessToken.token);
+            provider: 'fb', accessProviderToken: facebookAccessToken.token);
 
         // Update UI or perform necessary actions based on the result
         // For example:
@@ -112,8 +115,8 @@ class LoginController extends GetxController {
     try {
       // Initialize Twitter login instance
       final TwitterLogin twitterLogin = TwitterLogin(
-        apiKey: 'paPAugvbCW2wq9JiLgWNkaO9D',
-        apiSecretKey: 'ktzYRoiBOhQWC9Y2IbtlbSeH9pd3irILlalHJe6wxlfSZdXRE4', redirectURI: '',
+        apiKey: 'GRqmnvNiTPI2cqLtRI90fUb2F',
+        apiSecretKey: 'rgLmVRBsftGEPi3dctK7fbof8JfCprKNJLS3zZ9Jv0EI6SAI0m', redirectURI: 'thaman://',
       );
 
       // Trigger the Twitter authentication flow
@@ -122,12 +125,12 @@ class LoginController extends GetxController {
       // Check if the user has authenticated successfully
       if (result.status == TwitterLoginStatus.loggedIn) {
         // Get the Twitter session token and secret
-        final String? token = result.authToken;
+        final String? XaccessToken = result.authToken;
         final String? secret = result.authTokenSecret;
 
         // Exchange Twitter token and secret for Firebase credential
         final AuthCredential credential = TwitterAuthProvider.credential(
-          accessToken: token!,
+          accessToken: XaccessToken!,
           secret: secret!,
         );
 
@@ -140,7 +143,7 @@ class LoginController extends GetxController {
 
         // Get user data from your database (assuming it's implemented)
         var userData = await DatabaseX.loginBySocialMedia(
-            provider: 'twitter', accessProviderToken: token);
+            provider: 'twitter', accessProviderToken: XaccessToken);
 
         // Update UI or perform necessary actions based on the result
         // For example:
@@ -161,4 +164,24 @@ class LoginController extends GetxController {
     }
     isLoading.value = false;
   }
+  // Future<UserCredential> signInWithTwitter() async {
+  //   // Create a TwitterLogin instance
+  //   final twitterLogin = new TwitterLogin(
+  //       apiKey: 'GRqmnvNiTPI2cqLtRI90fUb2F',
+  //       apiSecretKey:'rgLmVRBsftGEPi3dctK7fbof8JfCprKNJLS3zZ9Jv0EI6SAI0m',
+  //       redirectURI: 'https://thaman-app.firebaseapp.com'
+  //   );
+  //
+  //   // Trigger the sign-in flow
+  //   final authResult = await twitterLogin.login();
+  //
+  //   // Create a credential from the access token
+  //   final twitterAuthCredential = TwitterAuthProvider.credential(
+  //     accessToken: authResult.authToken!,
+  //     secret: authResult.authTokenSecret!,
+  //   );
+  //
+  //   // Once signed in, return the UserCredential
+  //   return await FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
+  // }
 }

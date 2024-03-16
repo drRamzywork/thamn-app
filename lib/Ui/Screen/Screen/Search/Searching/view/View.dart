@@ -23,8 +23,9 @@ class SearchingView extends GetView<SearchingController> {
           height: 50,
           child: Center(
             child: TypeAheadField(
-              textFieldConfiguration: TextFieldConfiguration(
-                controller: controller.searchText,
+              controller: controller.searchText,
+              builder:(context, textController, focusNode) => TextField(
+                controller: textController,
                 autofocus: true,
                 onSubmitted: (_)=>controller.searchResults(),
                 style: TextStyleX.titleSmall.copyWith(color: ColorX.greyDark),
@@ -53,7 +54,7 @@ class SearchingView extends GetView<SearchingController> {
                   ],
                 );
               },
-              onSuggestionSelected: (val) {
+              onSelected: (val) {
                controller.onTapSearchAutoComplete(val.id);
               },
             ),
