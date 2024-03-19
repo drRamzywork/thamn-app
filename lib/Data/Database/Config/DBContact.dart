@@ -7,7 +7,7 @@ class DBContactX{
 
   /// Auth
   static const String postLoginBySocialMedia='${mainAPI}login/callback';
-  static Map bodyLoginSocialMedia({required String provider,required String accessProviderToken})=>{'provider':provider,'access_provider_token':accessProviderToken};
+  static Map bodyLoginSocialMedia({required String provider,required String accessProviderToken,String? secret})=>{'provider':provider,'access_provider_token':accessProviderToken,"secret" : secret};
   static const String postLogout='${mainAPI}logout';
 
   ////////////////////////////////////////////////////////////////////////

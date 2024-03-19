@@ -12,9 +12,10 @@ class DatabaseX {
   ///=======================================================================================
   /// Auth
 
-  static Future<(UserX,bool)> loginBySocialMedia({required String provider, required String accessProviderToken}) async {
+  static Future<(UserX,bool)> loginBySocialMedia({required String provider, required String accessProviderToken,String? secret}) async {
     try {
-      var data = await ApiX.post(DBContactX.postLoginBySocialMedia,body: DBContactX.bodyLoginSocialMedia(provider: provider, accessProviderToken: accessProviderToken));
+      print(DBContactX.bodyLoginSocialMedia(provider: provider, accessProviderToken: accessProviderToken,secret: secret));
+      var data = await ApiX.post(DBContactX.postLoginBySocialMedia,body: DBContactX.bodyLoginSocialMedia(provider: provider, accessProviderToken: accessProviderToken,secret: secret));
       if(data[NameX.data]!=null && data[NameX.data][NameX.user]!=null && data[NameX.data][NameX.token]!=null){
       return (UserX.fromJson(data[NameX.data][NameX.user],data[NameX.data][NameX.token]),(data[NameX.isSignUp]??false)as bool);
       }else{

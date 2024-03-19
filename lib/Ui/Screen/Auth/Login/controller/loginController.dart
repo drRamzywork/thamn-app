@@ -89,7 +89,7 @@ class LoginController extends GetxController {
 
         // Get user data from your database (assuming it's implemented)
         var userData = await DatabaseX.loginBySocialMedia(
-            provider: 'fb', accessProviderToken: facebookAccessToken.token);
+            provider: 'facebook', accessProviderToken: facebookAccessToken.token,);
 
         // Update UI or perform necessary actions based on the result
         // For example:
@@ -129,12 +129,14 @@ class LoginController extends GetxController {
         final String? secret = result.authTokenSecret;
 
         // Exchange Twitter token and secret for Firebase credential
+
         final AuthCredential credential = TwitterAuthProvider.credential(
           accessToken: XaccessToken!,
           secret: secret!,
         );
 
         // Sign in to Firebase using the credential
+
         UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
 
@@ -143,7 +145,7 @@ class LoginController extends GetxController {
 
         // Get user data from your database (assuming it's implemented)
         var userData = await DatabaseX.loginBySocialMedia(
-            provider: 'twitter', accessProviderToken: XaccessToken);
+            provider: 'twitter', accessProviderToken: XaccessToken,secret: secret);
 
         // Update UI or perform necessary actions based on the result
         // For example:
